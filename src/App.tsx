@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import MentorProfile from './components/MentorProfile';
+import MenteeProfile from './components/MenteeProfile';
+import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/mentor-profile"
+        element={
+          <ProtectedRoute allowedRoles={['mentor']}>
+            <MentorProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/mentee-profile"
+        element={
+          <ProtectedRoute allowedRoles={['mentee']}>
+            <MenteeProfile />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  </Router>
+);
 
 export default App;
